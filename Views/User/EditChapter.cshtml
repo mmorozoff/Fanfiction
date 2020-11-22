@@ -1,0 +1,28 @@
+﻿@model Fanfiction.Models.Show
+
+@{
+    ViewData["Title"] = "Редактирование";
+}
+
+<h2>Редактирование главы</h2>
+
+<form asp-action="EditChapter" asp-controller="User" asp-anti-forgery="true">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+    <div>
+        <div>
+            <label asp-for="ChName">Название (*максимум 20 символов)</label><br />
+            <textarea style="width:100%; max-width:300px" rows="1" maxlength="20" asp-for="ChName">@Model.ChName</textarea>
+            <span asp-validation-for="ChName" />
+        </div>
+        <div>
+            <label asp-for="Text">Текст</label><br />
+            <textarea style="width:100%; max-width:1000px" rows="15" asp-for="Text">@Model.Text</textarea>
+            <span asp-validation-for="Text" />
+        </div>
+
+        <div>
+            <br /><input type="submit" value="Сохранить" class="btn btn-outline-dark" />
+        </div>
+    </div>
+</form>
+

@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-Fanfiction-A4252DC5-5C80-4553-9D2A-A19304A6B68B</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.cs" />
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201118203525_Fanfiction.cs" />
+    <Compile Remove="Data\Migrations\20201118203525_Fanfiction.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201118205233_Fanfics.cs" />
+    <Compile Remove="Data\Migrations\20201118205233_Fanfics.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201118205908_migration.cs" />
+    <Compile Remove="Data\Migrations\20201118205908_migration.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201118210636_Final.cs" />
+    <Compile Remove="Data\Migrations\20201118210636_Final.Designer.cs" />
+    <Compile Remove="Migrations\20201118211431_Fanfiction.cs" />
+    <Compile Remove="Migrations\20201118211431_Fanfiction.Designer.cs" />
+    <Compile Remove="Models\FanficContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="jQuery" Version="3.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Owin" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\image\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\image\add.png" />
+    <None Include="wwwroot\image\human.png" />
+    <None Include="wwwroot\image\trash.png" />
+  </ItemGroup>
+
+</Project>

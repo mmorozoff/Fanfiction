@@ -1,0 +1,179 @@
+﻿@model Fanfiction.Models.Fanfic
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+
+<table class="table"
+    <thead>
+        <tr>
+            <th>
+                <h1 align="left">
+                    <b>@Model.Name</b><sup>@Model.Score</sup>
+
+                    @if (Model.AuthorName == User.Identity.Name || User.IsInRole("admin"))
+                    {
+                        <a asp-action="DeleteFanfic" asp-controller="User" asp-route-id="@Model.ID"><img align="right" width="40" height="40" src="~/image/trash.png" title="Удалить фанфик" /></a>
+                        <a asp-action="AddChapter" asp-controller="User" asp-route-id="@Model.ID"><img align="right" width="40" height="40" src="~/image/add.png" hspace="10" title="Добавить новую главу" /></a>
+                    }
+                    </h1>
+                    </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <td>
+                        <div id="info">
+                            <i><img width="15" height="15" src="~/image/human.png" />&nbsp;@Model.AuthorName</i><br />
+                            <b>Размер (главы): </b>@Model.Size<br />
+                            <b>Жанры: </b>
+                            @foreach (var i in Model.Genres)
+                            {
+                                <nobr><a class="text-dark" asp-action="SearchGenre" asp-controller="User" asp-route-name="@i.Name" id="word">@i.Name</a>&nbsp;</nobr>
+                            }
+                            <br />
+                            <b>Метки: </b>
+                            @foreach (var i in Model.Tags)
+                            {
+                                <nobr><a class="text-dark" asp-action="SearchTag" asp-controller="User" asp-route-name="@i.Name" id="word">@i.Name</a>&nbsp;</nobr>
+
+                            }
+                        </div>
+                    <hr align="center" size="5" width="100%" color="#808080">
+                    <style>
+                    #word {
+                    background-color: #b0eae5;
+                    max-width: 100%;
+                    }
+
+                        #description {
+                            background-color: #fafafa;
+                            border-left: 1px solid #ccc;
+                            border-left-color: #05a388;
+                            border-right: 1px solid #ccc;
+                            border-right-color: #05a388;
+                            padding: 15px;
+                            max-width: 100%;
+                            margin: 0 auto;
+                        }
+
+                        #info {
+                            background-color: #fafafa;
+                            border-left: 5px solid #ccc;
+                            border-right: 5px solid #ccc;
+                            border-left-color: #05a388;
+                            border-right-color: #05a388;
+                            max-width: 100%;
+                            padding: 15px;
+                            margin: 0 auto;
+                        }
+                    </style>
+                    <div id="description">
+                    @Model.Description
+                    </div>
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2 align="center">Содержание</h2><br />
+                            @foreach (var item in Model.Chapters)
+                            {
+                                <form asp-action="ShowChapter" asp-controller="User" asp-route-id="@item.ID" asp-route-fid="@Model.ID" asp-anti-forgery="true">
+                                    <div>
+
+                                        <center>
+                                            <br /><input type="submit" value="@item.Name" class="chapter" style='text-align: left' />
+
+                                            @if (Model.AuthorName == User.Identity.Name || User.IsInRole("admin"))
+                                            {
+                                                <a asp-action="DeleteChapter" asp-controller="User" asp-route-id="@item.ID"><img align="right" width="40" height="40" src="~/image/trash.png" title="Удалить главу" /></a>
+                                                <a asp-action="EditChapter" asp-controller="User" asp-route-n="@item.Name" asp-route-t="@item.Text" asp-route-id="@item.ID"><img align="right" width="40" height="40" src="~/image/edit.png" hspace="10" title="Редакировать главу" /></a>
+                                            }
+                                            <br />
+
+                                        </center>
+                                    </div>
+                                </form>
+                            }
+                            </td>
+                        </tr>
+                    <tr>
+                        <td>
+                            <style>
+                                .chapter {
+                                    width: 90%;
+                                    height: 50px;
+                                    font-weight: bold;
+                                }
+
+                                .rating-area {
+                                    overflow: hidden;
+                                    width: 200px;
+                                    margin: 0 auto;
+                                }
+
+                                    .rating-area:not(:checked) > input {
+                                        display: none;
+                                    }
+
+                                    .rating-area:not(:checked) > label {
+                                        float: right;
+                                        width: 40px;
+                                        padding: 0;
+                                        cursor: pointer;
+                                        font-size: 32px;
+                                        line-height: 32px;
+                                        color: lightgrey;
+                                        text-shadow: 1px 1px #bbb;
+                                    }
+
+                                        .rating-area:not(:checked) > label:before {
+                                            content: '★';
+                                        }
+
+                                    .rating-area > input:checked ~ label {
+                                        color: gold;
+                                        text-shadow: 1px 1px #c60;
+                                    }
+
+                                    .rating-area:not(:checked) > label:hover,
+                                    .rating-area:not(:checked) > label:hover ~ label {
+                                        color: gold;
+                                    }
+
+                                    .rating-area > input:checked + label:hover,
+                                    .rating-area > input:checked + label:hover ~ label,
+                                    .rating-area > input:checked ~ label:hover,
+                                    .rating-area > input:checked ~ label:hover ~ label,
+                                    .rating-area > label:hover ~ input:checked ~ label {
+                                        color: gold;
+                                        text-shadow: 1px 1px goldenrod;
+                                    }
+
+                                .rate-area > label:active {
+                                    position: relative;
+                                }
+                            </style>
+                            <center>
+                                <form method="post" asp-action="MarkFanfic" asp-controller="User" asp-route-id="@Model.ID">
+                                    <div class="rating-area">
+                                        <input type="radio" id="star-5" name="rating" value="5">
+                                        <label for="star-5" title="Оценка «5»"></label>
+                                        <input type="radio" id="star-4" name="rating" value="4">
+                                        <label for="star-4" title="Оценка «4»"></label>
+                                        <input type="radio" id="star-3" name="rating" value="3">
+                                        <label for="star-3" title="Оценка «3»"></label>
+                                        <input type="radio" id="star-2" name="rating" value="2">
+                                        <label for="star-2" title="Оценка «2»"></label>
+                                        <input type="radio" id="star-1" name="rating" value="1">
+                                        <label for="star-1" title="Оценка «1»"></label>
+                                    </div>
+                                    <button>Оценить</button>
+                                </form>
+                            </center>
+                            
+                        </td>
+
+                    </tr>
+                    </tbody>
+                    </table>

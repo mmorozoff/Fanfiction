@@ -1,0 +1,74 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Fanfiction.Controllers
+@model List<Fanfiction.Models.Fanfic>
+@{
+    ViewData["Title"] = "Поиск";
+}
+
+<table class="table"
+        <thead>
+            <tr>
+                <th><h1 align="center"><b>Фанфики по тэгу</b></h1></th>
+            </tr>
+        </thead>
+
+        <tbody>
+@foreach (var item in Model)
+{
+    <tr>
+    <td>
+    <div id="info">
+    <h2><a class="text-dark" asp-action="ShowContent" asp-controller="User" asp-route-id="@item.ID">@item.Name</a> <sup>@item.Score</sup></h2>
+    <i><img width="15" height="15" src="~/image/human.png" />&nbsp;@item.AuthorName</i><br />
+    <b>Размер (главы): </b>@item.Size<br />
+    <b>Жанры: </b>
+
+    @foreach (var i in item.Genres)
+    {
+        <nobr><a class="text-dark" asp-action="SearchGenre"  asp-controller="User" asp-route-name="@i.Name" id="word">@i.Name</a>&nbsp;</nobr>
+    }
+    <br />
+    <b>Метки: </b>
+    @foreach (var i in item.Tags)
+    {
+        <nobr><a class="text-dark" asp-action="SearchTag"  asp-controller="User" asp-route-id="@i.ID" id="word">@i.Name</a>&nbsp;</nobr>
+    }
+    </div>
+    <hr align="center" size="5" width="100%" color="#808080">
+    <style>
+    #word {
+    background-color: #b0eae5;
+    max-width: 100%;
+    }
+
+    #description {
+    background-color: #fafafa;
+    border-left: 1px solid #ccc;
+    border-left-color: #05a388;
+    border-right: 1px solid #ccc;
+    border-right-color: #05a388;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    }
+
+    #info {
+    background-color: #fafafa;
+    border-left: 5px solid #ccc;
+    border-right: 5px solid #ccc;
+    border-left-color: #05a388;
+    border-right-color: #05a388;
+    max-width: 100%;
+    padding: 15px;
+    margin: 0 auto;
+    }
+    </style>
+    <div id="description">
+    @item.Description
+    </div>
+    </td>
+    </tr>
+}
+        </tbody>
+                            </table>
+

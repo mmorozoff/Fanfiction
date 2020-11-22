@@ -1,0 +1,166 @@
+﻿@model Fanfiction.Models.Show
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+
+<table class="table"
+    <thead>
+        <tr>
+            <th>
+                <h1 align="left">
+                    <b>@Model.Name</b><sup>@Model.Score</sup>
+
+                    @if (Model.AuthorName == User.Identity.Name || User.IsInRole("admin"))
+                    {
+                        <a asp-action="AddChapter" asp-controller="User" asp-route-id="@Model.FID"><img align="right" width="40" height="40" src="~/image/add.png" hspace="10" title="Добавить новую главу" /></a>
+                        <a asp-action="DeleteChapter" asp-controller="User" asp-route-id="@Model.ID"><img align="right" width="40" height="40" src="~/image/trash.png" title="Удалить главу" /></a>
+                        <a asp-action="EditChapter" asp-controller="User" asp-route-n="@Model.ChName" asp-route-t="@Model.Text" asp-route-id="@Model.ID"><img align="right" width="40" height="40" src="~/image/edit.png" hspace="10" title="Редакировать главу" /></a>
+                    }
+                    </h1>
+                    </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <td>
+                        <div id="info">
+                            <i><img width="15" height="15" src="~/image/human.png" />&nbsp;@Model.AuthorName</i><br />
+                            <b>Размер (главы): </b>@Model.Size<br />
+                            <b>Жанры: </b>
+
+                            @foreach (var i in Model.Genres)
+                            {
+                                <nobr><a class="text-dark" asp-action="SearchGenre" asp-controller="User" asp-route-name="@i.Name" id="word">@i.Name</a>&nbsp;</nobr>
+
+                            }
+                            <br />
+                            <b>Метки: </b>
+                            @foreach (var i in Model.Tags)
+                            {
+                                <nobr><a class="text-dark" asp-action="SearchTag" asp-controller="User" asp-route-name="@i.Name" id="word">@i.Name</a>&nbsp;</nobr>
+
+                            }
+                        </div>
+                    <hr align="center" size="5" width="100%" color="#808080">
+                    <style>
+                    #word {
+                    background-color: #b0eae5;
+                    max-width: 100%;
+                    }
+
+                    #description {
+                    background-color: #fafafa;
+                    border-left: 1px solid #ccc;
+                    border-left-color: #05a388;
+                    border-right: 1px solid #ccc;
+                    border-right-color: #05a388;
+                    padding: 15px;
+                    max-width: 100%;
+                    margin: 0 auto;
+                    }
+
+                    #info {
+                    background-color: #fafafa;
+                    border-left: 5px solid #ccc;
+                    border-right: 5px solid #ccc;
+                    border-left-color: #05a388;
+                    border-right-color: #05a388;
+                    max-width: 100%;
+                    padding: 15px;
+                    margin: 0 auto;
+                    }
+
+                    #description1 {
+                    background-color: #fafafa;
+                    border-left: 10px solid #ccc;
+                    border-right: 10px solid #ccc;
+                    border-bottom: 1px solid #ccc;
+                    border-top: 1px solid #ccc;
+                    border-left-color: #05a388;
+                    border-right-color: #05a388;
+                    padding: 10px;
+                    max-width: 100%;
+                    margin: 0 auto;
+                    }
+                    </style>
+                    <div id="description">
+                    @Model.Description
+                    </div>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                    <h2 align="center">@Model.ChName<sup>@Model.ChScore</sup></h2>
+                    <center>
+                    @if (Model.Prev != -1)
+                    {
+                        <a asp-action="ShowChapter" asp-controller="User" asp-route-id="@Model.Prev" asp-route-fid="@Model.FID"><img width="40" height="40" src="~/image/left.png" title="Предыдущая глава" /></a>
+                    }
+                    <a asp-action="ShowContent" asp-controller="User" asp-route-id="@Model.FID"><img width="40" height="40" src="~/image/content.png" title="Содержание" /></a>
+                    @if (Model.Next != -1)
+                    {
+                        <a asp-action="ShowChapter" asp-controller="User" asp-route-id="@Model.Next" asp-route-fid="@Model.FID"><img width="40" height="40" src="~/image/right.png" title="Следующая глава" /></a>
+                    }
+                    </center>
+                    <br />
+                    <div id="description1">
+                    @Model.Text
+                    </div>
+                    <br />
+                    <center>
+                    <a asp-action="LikeChapter" asp-controller="User" asp-route-id="@Model.ID"><img width="40" height="40" src="~/image/like.png" title="Нравится" /></a>
+
+                    @if (Model.Prev != -1)
+                    {
+                        <a asp-action="ShowChapter" asp-controller="User" asp-route-id="@Model.Prev" asp-route-fid="@Model.FID"><img width="40" height="40" src="~/image/left.png" title="Предыдущая глава" /></a>
+                    }
+                    <a asp-action="ShowContent" asp-controller="User" asp-route-id="@Model.FID"><img width="40" height="40" src="~/image/content.png" title="Содержание" /></a>
+                    @if (Model.Next != -1)
+                    {
+                        <a asp-action="ShowChapter" asp-controller="User" asp-route-id="@Model.Next" asp-route-fid="@Model.FID"><img width="40" height="40" src="~/image/right.png" title="Следующая глава" /></a>
+                    }
+                    </center>
+                    </td>
+
+                    </tr>
+                    <tr>
+                    <td>
+                    <h2 align="center">Комментарии</h2><br />
+                    @foreach (var item in Model.Comments)
+                    {
+                        <i><img width="15" height="15" src="~/image/human.png" />&nbsp;@item.Author</i><br />
+                        @if (item.Author == User.Identity.Name || Model.AuthorName == User.Identity.Name || User.IsInRole("admin"))
+                        {
+                            <a asp-action="DeleteComment" asp-controller="User" asp-route-id="@item.ID"><img align="right" width="25" height="25" src="~/image/trash.png" title="Удалить комментарий" /></a>
+                        }
+                        <div id="description">
+                        @item.Content
+                        </div>
+
+                        <hr align="center" size="5" width="100%" color="#808080">
+                    }
+                    </td>
+                    </tr>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <tr>
+                        <td>
+                        <form asp-action="AddComment" asp-controller="User" asp-route-id="@Model.ID" asp-anti-forgery="true">
+                        <div class="validation" asp-validation-summary="ModelOnly"></div>
+                        <div>
+                        <div>
+                        <h4><label asp-for="CommentText">Добавить комментарий</label></h4>
+                        <textarea style="width:100%; max-width:1000px" rows="7" maxlength="500" asp-for="CommentText"></textarea>
+                        <span asp-validation-for="CommentText" />
+                        </div>
+                        <div>
+                        <br /><input type="submit" value="Опубликовать" class="btn btn-outline-dark" />
+                        </div>
+                        </div>
+                        </form>
+                        </td>
+                        </tr>
+                    }
+                    </tbody>
+                    </table>

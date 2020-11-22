@@ -1,0 +1,58 @@
+﻿@model Fanfiction.ViewModels.AddFanficModel
+@{
+    ViewData["Title"] = "Новый Фанфик";
+}
+
+<h2>Добавить новый фанфик</h2>
+
+<form asp-action="AddFanfic" asp-controller="User" method="post" asp-anti-forgery="true">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+    <div>
+        <div>
+            <label asp-for="Name">Название (*максимум 100 символов)</label><br />
+            <textarea style="width:100%; max-width:300px" maxlength="100" asp-for="Name"></textarea>
+            <span asp-validation-for="Name" />
+        </div>
+        @if (User.IsInRole("admin"))
+        {
+            <p>Автор</p>
+            <input list="my-list" name="author">
+            <datalist id="my-list">
+                @foreach (var item in Model.A)
+                {
+                    <option>@item</option>
+                }
+            </datalist>
+        }
+        <div>
+            <label asp-for="Description">Описание (*максимум 500 символов)</label><br />
+            <textarea style="width:100%; max-width:1000px" rows="5" maxlength="500" asp-for="Description"></textarea>
+            <span asp-validation-for="Description" />
+        </div>
+
+        <style>
+            #my-select {
+                max-width: 100%;
+            }
+        </style>
+        <p>Жанры (*максимум 5)</p>
+        <select id="my-select" name="genres[]" multiple="multiple">
+            @foreach (var item in Model.G)
+            {
+                <option>@item</option>
+            }
+        </select>
+
+        <br /><p>Метки (*максимум 10)</p>
+        <select class="selectpicker" name="tags[]" multiple data-max-options="10">
+            @foreach (var item in Model.T)
+            {
+                <option>@item</option>
+            }
+        </select>
+
+        <div>
+            <br /><input type="submit" value="Добавить" class="btn btn-outline-dark" />
+        </div>
+    </div>
+</form>

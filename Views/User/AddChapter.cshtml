@@ -1,0 +1,26 @@
+﻿@model Fanfiction.ViewModels.AddChapterModel
+@{
+    ViewData["Title"] = "Новая глава";
+}
+
+<h2>Добавить новую главу</h2>
+
+<form asp-action="AddChapter" asp-controller="User" asp-anti-forgery="true">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+    <div>
+        <div>
+            <label asp-for="Name">Название (*максимум 20 символов)</label><br />
+            <textarea style="width:100%; max-width:300px" rows="1" maxlength="20" asp-for="Name"></textarea>
+            <span asp-validation-for="Name" />
+        </div>
+        <div>
+            <label asp-for="Text">Текст</label><br />
+            <textarea style="width:100%; max-width:1000px" rows="15" asp-for="Text"></textarea>
+            <span asp-validation-for="Text" />
+        </div>
+
+        <div>
+            <br /><input type="submit" value="Опубликовать" class="btn btn-outline-dark" />
+        </div>
+    </div>
+</form>

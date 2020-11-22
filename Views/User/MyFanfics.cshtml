@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Fanfiction.Models.Fanfic>
+@{
+    ViewData["Title"] = "Мои Фанфики";
+}
+
+
+<table class="table"
+    <thead>
+        <tr>
+            <th><h1 align="center"><b>Мои Фанфики</b></h1>
+                <div class="text-right">
+                    <a class="text-dark" asp-action="AddFanfic" asp-controller="User"><img width="20" height="20" src="~/image/add.png" />Добавить фанфик</a><br />
+                </div>
+            </th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>
+                <center>
+                    <a class="text-dark" asp-action="MyFanfics" asp-route-sortOrder="@ViewBag.PopSort" id="word">По популярности</a>
+                    &nbsp;&nbsp;
+                    <a class="text-dark" asp-action="MyFanfics" asp-route-sortOrder="@ViewBag.TimeSort" id="word">По обновлению</a>
+                    &nbsp;&nbsp;
+                    <a class="text-dark" asp-action="MyFanfics" asp-route-sortOrder="@ViewBag.SizeSort" id="word">По размеру</a>
+                    </center>
+                    </td>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        @if (item.AuthorName == User.Identity.Name)
+                        {
+                            <tr>
+                            <td>
+                            <div id="info">
+                            <h2>
+                            <a class="text-dark" asp-action="ShowContent" asp-controller="User" asp-route-id="@item.ID">@item.Name</a> <sup>@item.Score</sup><a asp-action="DeleteFanfic" asp-controller="User" asp-route-id="@item.ID"><img align="right" width="40" height="40" src="~/image/trash.png" title="Удалить фанфик" /></a>
+                            <a asp-action="AddChapter" asp-controller="User" asp-route-id="@item.ID"><img align="right" width="40" height="40" src="~/image/add.png" hspace="10" title="Добавить новую главу" /></a>
+                            </h2>
+                            <i><img width="15" height="15" src="~/image/human.png" />&nbsp;@item.AuthorName</i><br />
+                            <b>Размер (главы): </b>@item.Size<br />
+                            <b>Жанры: </b>
+
+                            @foreach (var i in item.Genres)
+                            {
+                                <nobr><a class="text-dark" asp-action="SearchGenre" asp-controller="User" asp-route-name="@i.Name" id="word">@i.Name</a>&nbsp;</nobr>
+                            }
+                            <br />
+                            <b>Метки: </b>
+                            @foreach (var i in item.Tags)
+                            {
+                                <nobr><a class="text-dark" asp-action="SearchTag" asp-controller="User" asp-route-name="@i.Name" id="word">@i.Name</a>&nbsp;</nobr>
+
+                            }
+                            </div>
+                            <hr align="center" size="5" width="100%" color="#808080">
+                            <style>
+                            #word {
+                            background-color: #b0eae5;
+                            max-width: 100%;
+                            }
+
+                            #description {
+                            background-color: #fafafa;
+                            border-left: 1px solid #ccc;
+                            border-left-color: #05a388;
+                            border-right: 1px solid #ccc;
+                            border-right-color: #05a388;
+                            padding: 15px;
+                            max-width: 100%;
+                            margin: 0 auto;
+                            }
+
+                            #info {
+                            background-color: #fafafa;
+                            border-left: 5px solid #ccc;
+                            border-right: 5px solid #ccc;
+                            border-left-color: #05a388;
+                            border-right-color: #05a388;
+                            max-width: 100%;
+                            padding: 15px;
+                            margin: 0 auto;
+                            }
+                            </style>
+                            <div id="description">
+                            @item.Description
+                            </div>
+                            </td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                    </table>

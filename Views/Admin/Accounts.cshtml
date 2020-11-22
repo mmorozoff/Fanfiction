@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Fanfiction.Models.User>
+@{
+    ViewData["Title"] = "Пользователи";
+}
+
+<div class="text-center">
+    <h1 class="display-4"><b>Пользователи</b></h1>
+</div>
+
+
+
+<form method="post" asp-action="Action" asp-controller="Admin">
+    <script type="text/javascript">
+        function check(field) {
+            for (i = 0; i < field.length; i++)
+                if (field[i].checked == true)
+                    field[i].checked = false;
+                else
+                    field[i].checked = true;
+        }
+    </script>
+    <div class="text-left">
+        <div>
+            <button name="change"><img width="30" height="30" src="~/image/swap.png" title="Изменить роль" /></button>
+            <button name="block"><img width="30" height="30" src="~/image/block.png" title="Заблокировать/разблокировать пользователя" /></button>
+            <button name="delete"><img width="30" height="30" src="~/image/trash.png" title="Удалить пользователя" /></button>
+        </div>
+    </div>
+    <table class="table"
+        <thead>
+            <tr>
+                <th>
+                    <input id="global_checkbox" type="checkbox" onclick="check(this.form.AreChecked)">
+                </th>
+                <th><b>ID</b></th>
+                <th><b>Логин</b></th>
+                <th><b>Email</b></th>
+                <th><b>Роль</b></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><input class="check-box" type="checkbox" name="AreChecked" value="@item.ID" /></td>
+                    <td>@item.ID</td>
+                    <td>@item.Name</td>
+                    <td>@item.Email</td>
+                    <td>@item.Role</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</form>
